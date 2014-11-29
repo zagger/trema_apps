@@ -3,9 +3,11 @@ class GroupTable < Controller
   def start
     p "start group"
   end
+  
   def packet_in dpid, mes
     p "packet in from #{dpid} with port #{mes.in_port}"
   end
+  
   def switch_ready dpid
     p "wake up #{dpid}"
 
@@ -27,7 +29,6 @@ class GroupTable < Controller
         buckets:[bucket1, bucket2]
       }
     )
-
    
     action = GroupAction.new(2)
     ins = ApplyAction.new( actions:[action] )
