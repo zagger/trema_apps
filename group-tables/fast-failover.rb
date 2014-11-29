@@ -1,25 +1,15 @@
   
 class GroupTable < Controller
-  #periodic_timer_event :request, 3
   def start
     @dpids=[]
     p "start group"
   end
+  
   def packet_in dpid, mes
     p "packet in from #{dpid} with port #{mes.in_port}"
   end
+  
   def switch_ready dpid
-=begin
-    action = SendOutPort.new( port_number: OFPP_CONTROLLER, max_len: OFPCML_NO_BUFFER )
-    ins = ApplyAction.new( actions: [ action ] )
-    send_flow_mod_add( dpid,
-                       priority: OFP_LOW_PRIORITY,
-                       buffer_id: OFP_NO_BUFFER,
-                       flags: OFPFF_SEND_FLOW_REM,
-                       instructions: [ ins ]
-    )
-=end
-
     action = SendOutPort.new(port_number:2)
     bucket1 = Bucket.new(
       watch_port:2,
@@ -38,7 +28,6 @@ class GroupTable < Controller
         type:OFPGT_FF,
         group_id:2,
         buckets:[bucket1, bucket2]
-        #buckets:[bucket1]
       }
     )
 
